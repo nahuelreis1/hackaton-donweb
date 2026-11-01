@@ -39,3 +39,4 @@ FINISH
 - [ASSUMPTION] USER.md says 20 products but lists 22; contract uses the 22 listed (catalog has 40 with free-use items).
 - 16:52 APPROVED (user: "avanza"), deck coral. Model gpt-6.1-terra verified in /v1/models (no 'fast' variant listed). Gemini/ElevenLabs keys taken from ../video-editor/.env.
 - 16:53 PLAN written (7 tasks + Td). Deviation: Td after T5 due to late start.
+- 18:27 deck: /pitch/ coral 6 slides, demo #4 (live app via /?demo), speaker notes with the user's pitch (N key), check by screenshot ok.
