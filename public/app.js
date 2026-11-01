@@ -42,6 +42,7 @@ async function init() {
 function renderCases() {
   $('#caseList').innerHTML = CASES.map((c) => `
     <li class="case">
+      <img class="case-thumb" src="/demo/${c.id}.jpg" alt="" onerror="this.remove()" />
       <span class="case-title">${c.icon} ${c.title}</span>
       <button class="load-case" data-case="${c.id}" type="button">▶ Cargar caso</button>
       <span class="case-quote">"${c.text}"</span>
@@ -325,7 +326,7 @@ function productVisual(p) {
 
 function cardHtml(p, i, isNew) {
   return `<div class="card ${p.type}${isNew ? ' new-badge' : ''}" data-id="${p.id}" style="animation-delay:${i * 0.12}s">
-    <div class="ph"><span class="tbadge">${p.type === 'tool' ? 'Herramienta' : 'Material'}</span><div class="obj">${productVisual(p)}</div><div class="floor"></div></div>
+    <div class="ph"><span class="tbadge">${p.type === 'tool' ? 'Herramienta' : 'Material'}</span><div class="obj${state.catalog[p.id]?.img ? ' has-img' : ''}">${productVisual(p)}</div>${state.catalog[p.id]?.img ? '' : '<div class="floor"></div>'}</div>
     <div class="body">
       <div class="name">${esc(p.name)}</div>
       <div class="why">${esc(p.reason || '')}</div>
