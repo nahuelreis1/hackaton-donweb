@@ -301,7 +301,7 @@ async function playActions(actions) {
 function showDiagnosis(a) {
   // A new diagnosis starts a new problem: clear the previous calculation and kit state.
   $('#calc').classList.add('hidden');
-  state.kit = [];
+  state.freshProblem = true;
   $('#empty').classList.add('hidden');
   $('#diagSaid').textContent = `"${state.lastUserText.slice(0, 160)}${state.lastUserText.length > 160 ? '…' : ''}"`;
   $('#diagDetected').textContent = a.detected;
@@ -339,7 +339,8 @@ function cardHtml(p, i, isNew) {
 
 function showKit(items) {
   const before = new Set(state.kit.map((k) => k.id));
-  const hadKit = state.kit.length > 0;
+  const hadKit = state.kit.length > 0 && !state.freshProblem;
+  state.freshProblem = false;
   state.kit = items;
   $('#empty').classList.add('hidden');
   const mats = items.filter((p) => p.essential !== false);
