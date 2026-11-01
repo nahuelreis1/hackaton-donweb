@@ -26,6 +26,7 @@ BUILD
 - Deck /pitch/, README.
 
 ## Scope changes
+- 17:40 user: kit split into "Lo que necesitás" (essential, model-decided) vs "Sugeridos"; 3D product cards; polished chat (avatar header, pill composer, SVG icons). Deployed 9304d5e. Self-review via headless Chrome screenshots.
 - 17:26 user: app renamed "Ferrelisto"; logo (smiling robot wrench) in header, favicon, welcome pop-up, chat avatar, typing and empty state; agent persona renamed. Deployed 7e69881.
 - 16:48 user: entry offer pop-up, "Casos para la demo" dropdown with file URLs, general catalog (~40 products) for free jury use, G4 free question added, cart + checkout merged into G5.
 - 16:32 late start: 77 min lost vs 15:15. Recommend cutting the lowest-value contract steps.
