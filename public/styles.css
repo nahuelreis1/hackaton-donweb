@@ -339,3 +339,12 @@ button { font: inherit; cursor: pointer; }
 .offer-card b { font-size: 13.5px; }
 .offer-foot { margin-top: 14px; padding-top: 12px; }
 @media (max-width: 860px) { .offer-top { grid-template-columns: 1fr; } .offer-grid { grid-template-columns: 1fr 1fr; } }
+.offer .x { z-index: 5; }
+.modal { grid-template-columns: minmax(0, 1060px); justify-content: center; }
+.offer, .offer-top > *, .offer-card { min-width: 0; }
+@media (max-width: 860px) {
+  .offer { padding: 18px; }
+  .offer h1 { font-size: 22px; padding-right: 36px; }
+  .offer-media { order: -1; }
+  .offer-grid { grid-template-columns: 1fr; }
+}

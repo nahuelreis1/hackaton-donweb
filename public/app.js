@@ -299,6 +299,9 @@ async function playActions(actions) {
 }
 
 function showDiagnosis(a) {
+  // A new diagnosis starts a new problem: clear the previous calculation and kit state.
+  $('#calc').classList.add('hidden');
+  state.kit = [];
   $('#empty').classList.add('hidden');
   $('#diagSaid').textContent = `"${state.lastUserText.slice(0, 160)}${state.lastUserText.length > 160 ? '…' : ''}"`;
   $('#diagDetected').textContent = a.detected;
