@@ -1,0 +1,52 @@
+# Generic Compose + Caddy template (tooling, not product code).
+# Copy to `compose.yaml` in the event project, and copy the Caddyfile asset to `caddy/Caddyfile`.
+#
+# Required `.env` next to this file (never committed; uploaded to the server over ssh with
+# umask 077, as the deploy playbook describes):
+#   DOMAIN=<public hostname>        required: compose refuses to start without it
+#   APP_PORT=3000                   optional for Node (default 3000); REQUIRED as APP_PORT=8000
+#                                   with the Python template, otherwise Caddy proxies to 3000
+#                                   and returns 502 while the container is healthy
+#   plus the application variables (API key, model name) named in the AI integration reference
+#
+# Rules: never run `docker compose down -v` (it deletes the named volumes, including the
+# certificates in caddy_data), and never prune.
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    # expose = reachable only from the compose network. Caddy is the only public entry point.
+    expose:
+      - "${APP_PORT:-3000}"
+    volumes:
+      - appdata:/data
+    # No healthcheck here on purpose: the HEALTHCHECK of the Dockerfile is inherited.
+    # The caddy service waits for it, so the Dockerfile must keep that HEALTHCHECK.
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env}
+      APP_PORT: ${APP_PORT:-3000}
+    volumes:
+      # Mount the DIRECTORY, not the file: a single-file bind mount can keep pointing at the old
+      # file after an editor or `git pull` replaces it [I].
+      - ./caddy:/etc/caddy:ro
+      # caddy_data holds the certificates and the ACME account. Never delete it (rate limits).
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+
+volumes:
+  appdata:
+  caddy_data:
+  caddy_config:

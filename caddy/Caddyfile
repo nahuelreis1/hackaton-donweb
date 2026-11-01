@@ -1,0 +1,33 @@
+# Generic Caddyfile template (tooling, not product code).
+# Copy to `caddy/Caddyfile` in the event project (compose.yaml mounts the ./caddy directory).
+# DOMAIN and APP_PORT come from the environment of the caddy service (see compose.yaml).
+#
+# While testing, avoid the Let's Encrypt production rate limits by uncommenting this global
+# block. It must stay the first block in the file. Staging certificates are NOT trusted by
+# browsers: remove the block before the real deploy check. While the block is active, the
+# https checks of deploy.sh and smoke.sh fail on the untrusted certificate: run them with
+# INSECURE=1 (curl -k) for that period only.
+# Never delete the caddy_data volume to "start clean".
+#
+# After ANY edit of this file, run `docker compose restart caddy` (or `docker compose up -d
+# --force-recreate caddy`) inside /srv/app. The Caddyfile reaches the container through a
+# bind-mounted directory, so `docker compose up -d --build` neither recreates nor reloads
+# Caddy when only this file changed. Both commands are covered operations of the deploy
+# playbook (section 2).
+#
+# {
+# 	acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+# }
+
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy app:{$APP_PORT}
+
+	# Safety net only, if the app sends X-Frame-Options and cannot be fixed in time.
+	# Prefer fixing the app (see the iframe checks of the deploy playbook). To use it,
+	# delete the plain reverse_proxy line above and uncomment this block:
+	#
+	# reverse_proxy app:{$APP_PORT} {
+	# 	header_down -X-Frame-Options
+	# }
+}

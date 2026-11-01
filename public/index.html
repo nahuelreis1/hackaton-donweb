@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ferretería El Clavo · Mostrador inteligente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🔨</div>
+      <div>
+        <strong>Ferretería El Clavo</strong>
+        <span>Mostrador inteligente · contale tu problema, te armamos el kit</span>
+      </div>
+    </div>
+    <div class="top-right">
+      <span class="ai-pill"><i></i> IA en vivo</span>
+      <button id="cartBtn" class="cart-btn" type="button" aria-label="Abrir carrito">
+        🛒 <span>Carrito</span> <b id="cartCount">0</b> <em id="cartTotalTop">$0</em>
+      </button>
+    </div>
+  </header>
+
+  <main class="split">
+    <section class="chat-panel">
+      <div class="chat-head">
+        <div>
+          <h2>Contale tu problema</h2>
+          <p>Como te salga: texto, foto o audio. No hace falta saber el nombre técnico.</p>
+        </div>
+        <details id="cases" class="cases">
+          <summary>🎬 Casos para la demo</summary>
+          <div class="cases-body">
+            <p class="cases-hint">Cargá un caso con un clic, o descargá la foto y el audio y subilos vos al chat.</p>
+            <ul id="caseList"></ul>
+          </div>
+        </details>
+      </div>
+
+      <div id="messages" class="messages" aria-live="polite"></div>
+
+      <div id="chips" class="chips"></div>
+
+      <div id="attachPreview" class="attach-preview hidden"></div>
+      <form id="composer" class="composer" autocomplete="off">
+        <label class="icon-btn" title="Subir foto">📷<input id="imageInput" type="file" accept="image/*" hidden /></label>
+        <label class="icon-btn" title="Subir audio">🎵<input id="audioInput" type="file" accept="audio/*" hidden /></label>
+        <button id="micBtn" class="icon-btn" type="button" title="Grabar audio">🎙️</button>
+        <input id="textInput" type="text" maxlength="1500" placeholder="Ej: se me rompió el cosito de la canilla…" />
+        <button id="sendBtn" class="send-btn" type="submit">Enviar</button>
+      </form>
+    </section>
+
+    <section class="counter-panel">
+      <div class="counter-head">
+        <h2>Mostrador</h2>
+        <span class="live"><i></i> La IA arma tu pedido en vivo</span>
+      </div>
+
+      <div id="empty" class="empty">
+        <div class="empty-icon">🧰</div>
+        <h3>Vos contás el problema. Acá aparece la solución.</h3>
+        <ol class="steps">
+          <li><b>1</b> Traducimos tu problema a idioma ferretero</li>
+          <li><b>2</b> Armamos el kit exacto con cantidades y precios</li>
+          <li><b>3</b> Lo cargamos al carrito y lo retirás sin hacer fila</li>
+        </ol>
+      </div>
+
+      <div id="thinking" class="thinking hidden">
+        <div class="scan"></div>
+        <span>Analizando tu problema…</span>
+        <div class="skeletons"><div></div><div></div><div></div></div>
+      </div>
+
+      <div id="diagnosis" class="diagnosis hidden">
+        <div class="diag-col">
+          <small>Lo que nos contaste</small>
+          <p id="diagSaid"></p>
+        </div>
+        <div class="diag-arrow">→</div>
+        <div class="diag-col">
+          <small>Detectado</small>
+          <p id="diagDetected"></p>
+          <small>Solución</small>
+          <p id="diagSolution" class="solution"></p>
+        </div>
+      </div>
+
+      <div id="calc" class="calc hidden"></div>
+
+      <div id="kit" class="kit hidden">
+        <div class="kit-section">
+          <h3>🧱 Materiales necesarios</h3>
+          <div id="materials" class="grid"></div>
+        </div>
+        <div class="kit-section">
+          <h3>🛠️ Herramientas sugeridas <small>¿Ya la tenés? Tocá "Ya la tengo"</small></h3>
+          <div id="tools" class="grid"></div>
+        </div>
+        <div class="kit-footer">
+          <div><small>Total del kit</small><strong id="kitTotal">$0</strong></div>
+          <button id="addKitBtn" class="buy-btn" type="button">🛒 Agregar kit al carrito</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside id="cartDrawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <h3>🛒 Tu carrito</h3>
+      <button id="closeCart" class="x" type="button" aria-label="Cerrar">✕</button>
+    </div>
+    <ul id="cartList" class="cart-list"></ul>
+    <div class="drawer-foot">
+      <div class="total-row"><span>Total</span><strong id="cartTotal">$0</strong></div>
+      <button id="checkoutBtn" class="buy-btn wide" type="button" disabled>Finalizar compra</button>
+      <small>Pago simulado para la demo · retiro en mostrador</small>
+    </div>
+  </aside>
+  <div id="drawerShade" class="shade hidden"></div>
+
+  <div id="welcome" class="modal">
+    <div class="offer">
+      <div class="ribbon">🔥 NUEVO · ATENCIÓN CON IA</div>
+      <button id="closeWelcome" class="x" type="button" aria-label="Cerrar">✕</button>
+      <h1>¿No sabés cómo se llama lo que necesitás? <span>No importa.</span></h1>
+      <p class="lead">Contale a Tito, nuestro vendedor con IA, tu problema <b>como te salga</b>: escribilo, mandá una <b>foto</b> o un <b>audio</b>. Te arma el kit exacto, calcula cantidades y te lo deja en el carrito.</p>
+      <div class="offer-grid" id="offerGrid"></div>
+      <div class="offer-foot">
+        <span>🎬 <b>Jurado:</b> en <b>"Casos para la demo"</b> tienen fotos y audios reales para descargar y subir al chat.</span>
+        <button id="startBtn" class="buy-btn" type="button">Probar ahora →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="success" class="modal hidden">
+    <div class="success">
+      <div class="check">✓</div>
+      <h2>¡Pedido pagado!</h2>
+      <p>Tu pedido <b id="orderId"></b> ya está listo para <b>retirar por el mostrador sin hacer fila</b>.</p>
+      <ul id="orderList" class="order-list"></ul>
+      <div class="total-row"><span>Total pagado</span><strong id="orderTotal"></strong></div>
+      <small>Pago simulado para la demo.</small>
+      <button id="newOrder" class="buy-btn wide" type="button">Nueva consulta</button>
+    </div>
+  </div>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

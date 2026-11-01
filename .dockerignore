@@ -1,0 +1,19 @@
+# Copy this file to `.dockerignore` in the event project (the asset has no leading dot so it
+# is easy to see and to copy). It keeps secrets (.env files) and build noise out of the image.
+# deploy.sh only WARNs when `.dockerignore` is missing or has no .env* rule; the build goes on.
+#
+# `**/` makes a pattern match at any depth (a plain `node_modules` only matches the root).
+# Markdown files are NOT excluded: a project may serve or read them at runtime.
+#
+# Adapt to the stack: this keeps `dist` and `.next` OUT of the build context. A Vite or
+# TypeScript project that builds on the laptop would ship an image without its build output,
+# so it needs a build stage in its Dockerfile (npm run build inside Docker), the way the
+# Next.js block of Dockerfile.node does.
+.git
+.next
+dist
+.venv
+**/.env*
+**/node_modules
+**/__pycache__
+.hack
