@@ -29,7 +29,8 @@ Una ferretería pierde ventas atendiendo por WhatsApp o teléfono: el cliente no
 | G4 consulta libre | Real | API pública: "cortar tablas" → `serrucho` |
 | G5 carrito | Real | API pública: "sí, agregalo" → `add_to_cart` |
 | Pago | Simulado | Etiquetado en la pantalla de éxito |
-| Fotos de productos y de los casos | Pendiente | Se muestran íconos |
+| Diagnóstico por foto | Real | API pública: solo la foto del caso 4 → diagnóstico "boca quemada" + `toma20` |
+| Fotos de productos y de los casos | Real | Generadas con `gpt-image-2` (`scripts/gen-images.mjs`) |
 
 ## Stack y ejecución local
 Node 24 + Express + frontend estático (HTML/CSS/JS) + `openai`. Docker Compose + Caddy en el servidor.
@@ -37,7 +38,7 @@ Node 24 + Express + frontend estático (HTML/CSS/JS) + `openai`. Docker Compose 
 cp .env.example .env   # completar OPENAI_API_KEY (OPENAI_MODEL, OPENAI_REASONING_EFFORT, OPENAI_TRANSCRIBE_MODEL opcionales)
 npm install && node --env-file=.env server.js
 ```
-Los audios de los casos se generaron con ElevenLabs (`scripts/gen-audio.mjs`, requiere `ELEVENLABS_API_KEY`).
+Los audios de los casos se generaron con ElevenLabs (`scripts/gen-audio.mjs`, requiere `ELEVENLABS_API_KEY`) y las fotos con `gpt-image-2` (`scripts/gen-images.mjs`).
 
 ## Despliegue
 DonWeb Cloud Server con Docker Compose y Caddy (HTTPS automático).
