@@ -37,6 +37,8 @@ async function init() {
   renderChips();
   bot('¡Hola! Soy <b>Ferrelisto</b>, tu vendedor de ferretería con IA 👋 Contame qué se te rompió o qué querés arreglar, como te salga. También podés mandarme una foto o un audio.');
   bindUI();
+  // Embedded in the pitch deck (/?demo): skip the welcome pop-up.
+  if (new URLSearchParams(location.search).has('demo')) $('#welcome').classList.add('hidden');
 }
 
 function renderCases() {
