@@ -1,7 +1,7 @@
 # STATUS
 
 ## Phase
-BUILD
+FINISH
 
 ## Gate log
 - 16:32 deploy (16:00) MISSED: late start (router first run 16:32). Priority applied: deploy a thin slice first, features after.
@@ -10,6 +10,8 @@ BUILD
 - 17:01 deploy reached late: https://138.219.41.121.sslip.io live, /health 200, real AI call 200 in 7.4 s, trusted cert, no frame headers. Own domain blocked by DNS (ns1/ns2.donweb.com answer REFUSED for the zone); Caddy already lists dwday-124730116.online and www, cert issues automatically once DNS resolves.
 
 ## Implemented
+- 18:06 End-to-end browser test on https://www.dwday-124730116.online (headless Chrome, screenshots reviewed): pop-up video playing; 5 cases (3 audio, 3 photo); audio case 2 -> calc 12 m2 / 2,4 L / 1 x 4 L; "ya tengo rodillo" removes the card; photo-only case 5 -> hinge diagnosis + kit; "Sí, agregalo" -> cart $18.500; checkout modal #FL-xxxx. No console errors. Mobile 390 px: no horizontal overflow.
+- G1, G2, G3, G4, G5: Real (API and browser checks passed on the public URL).
 - G2 (API, public URL): case-1 text -> show_diagnosis + show_kit with sifon, teflon, pinza (7.6 s).
 - G3 (API, public URL): 4x3 wall -> calculate_paint area_m2=12, liters=2.4, latex4 x1; "ya tengo rodillo" -> remove_item rodillo. Transcription of caso2.mp3 200 in 1.2 s.
 - G4 (API, public URL): "cortar unas tablas de madera" -> show_kit with serrucho.
@@ -20,12 +22,10 @@ BUILD
 - Checkout payment (labeled in UI)
 
 ## Pending
-- G1/G5 browser checks (pop-up, dropdown, fly-to-cart, checkout modal): not yet observed in a browser.
-- Deck /pitch/ (optional).
-- Own domain dwday-124730116.online: DNS zone not served by DonWeb nameservers.
-
+- Deck /pitch/ (not built; cut for time).
 
 ## Scope changes
+- 17:58 user: demo video (20 s, real app and real AI, waits compressed) in the pop-up; demo cases 3 audio + 3 photo; mic glow invite. Deployed 122d458.
 - 17:47 user: OK to use the OpenAI key for development; 5 case photos + 40 product photos generated with gpt-image-2 (0 failures). Photo-only diagnosis verified on public URL (caso4 -> toma20). Deployed 2ed92bd.
 - 17:40 user: kit split into "Lo que necesitás" (essential, model-decided) vs "Sugeridos"; 3D product cards; polished chat (avatar header, pill composer, SVG icons). Deployed 9304d5e. Self-review via headless Chrome screenshots.
 - 17:26 user: app renamed "Ferrelisto"; logo (smiling robot wrench) in header, favicon, welcome pop-up, chat avatar, typing and empty state; agent persona renamed. Deployed 7e69881.

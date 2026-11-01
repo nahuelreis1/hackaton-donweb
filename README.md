@@ -8,8 +8,8 @@ Un vendedor con IA para ferreterías: el cliente cuenta su problema como le sale
 Una ferretería pierde ventas atendiendo por WhatsApp o teléfono: el cliente no sabe el nombre técnico ("el cosito blanco de la pileta") y el ferretero pierde minutos adivinando y presupuestando a mano. Acá el cliente lo dice en sus palabras y se lleva el kit correcto, listo para retirar.
 
 ## Pruébalo en 60 segundos
-1. Abrí la URL: aparece una oferta con ideas para probar. Cerrala con "Probar ahora" (G1).
-2. Abrí "🎬 Casos para la demo" y tocá "▶ Cargar caso" en Plomería: se transcribe el audio del cliente y a la derecha aparecen el diagnóstico y el kit (G2).
+1. Abrí la URL: aparece una oferta con un video de 20 s de la app en uso e ideas para probar. Cerrala con "Probar ahora" (G1).
+2. Abrí "🎬 Casos para la demo" (3 casos con audio y 3 con foto, para descargar o cargar con un clic) y tocá "▶ Cargar caso" en Plomería: se transcribe el audio, se envía la foto y a la derecha aparecen el diagnóstico y el kit (G2).
 3. Cargá el caso de Pintura: calcula 4 × 3 = 12 m², 2,4 L, 1 lata de 4 L. Escribí "ya tengo rodillo" y la tarjeta desaparece (G3).
 4. Preguntá algo libre: "tengo que cortar unas tablas de madera" (G4).
 5. "Sí, agregalo": los productos vuelan al carrito. "Finalizar compra" muestra el pedido listo para retirar (G5, pago simulado).
