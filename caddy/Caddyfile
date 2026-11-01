@@ -19,7 +19,7 @@
 # 	acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 # }
 
-{$DOMAIN} {
+{$DOMAIN}, dwday-124730116.online, www.dwday-124730116.online {
 	encode zstd gzip
 	reverse_proxy app:{$APP_PORT}
 
