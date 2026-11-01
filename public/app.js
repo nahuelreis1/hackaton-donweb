@@ -35,7 +35,7 @@ async function init() {
   renderCases();
   renderOffers();
   renderChips();
-  bot('¡Hola! Soy <b>Tito</b>, el vendedor de El Clavo 👋 Contame qué se te rompió o qué querés arreglar, como te salga. También podés mandarme una foto o un audio.');
+  bot('¡Hola! Soy <b>Ferrelisto</b>, tu vendedor de ferretería con IA 👋 Contame qué se te rompió o qué querés arreglar, como te salga. También podés mandarme una foto o un audio.');
   bindUI();
 }
 
@@ -149,7 +149,7 @@ function bot(html, { error = false, fallback = false, actions = [], quick = fals
   const d = document.createElement('div');
   d.className = 'msg bot' + (error ? ' error' : '');
   const chips = actions.map((a, i) => `<span class="action-chip" style="animation-delay:${i * 0.15}s">${actionLabel(a)}</span>`).join('');
-  d.innerHTML = `<span class="who">Tito · vendedor IA</span>${html}`
+  d.innerHTML = `<span class="who">Ferrelisto · vendedor IA</span>${html}`
     + (chips ? `<div class="actions-row">${chips}</div>` : '')
     + (fallback ? '<span class="fallback-tag">fallback: IA no disponible</span>' : '')
     + (quick ? '<div class="quick"><button class="yes" type="button">✅ Sí, agregalo</button><button class="no" type="button">Ya tengo algunas herramientas</button></div>' : '');
@@ -157,7 +157,11 @@ function bot(html, { error = false, fallback = false, actions = [], quick = fals
     d.querySelector('.yes').onclick = () => send('Sí, agregalo');
     d.querySelector('.no').onclick = () => { $('#textInput').value = 'Ya tengo '; $('#textInput').focus(); };
   }
-  $('#messages').appendChild(d); scrollChat();
+  const row = document.createElement('div');
+  row.className = 'botrow';
+  row.innerHTML = '<img class="avatar" src="/img/logo.png" alt="Ferrelisto" />';
+  row.appendChild(d);
+  $('#messages').appendChild(row); scrollChat();
 }
 
 function actionLabel(a) {
@@ -178,7 +182,7 @@ function setBusy(b) {
   let t = $('#typing');
   if (b && !t) {
     t = document.createElement('div'); t.id = 'typing'; t.className = 'typing';
-    t.innerHTML = 'Tito está mirando tu problema <b>.</b><b>.</b><b>.</b>';
+    t.innerHTML = '<img class="avatar sm" src="/img/logo.png" alt="" /> Ferrelisto está mirando tu problema <b>.</b><b>.</b><b>.</b>';
     $('#messages').appendChild(t); scrollChat();
   } else if (!b && t) t.remove();
   $('#thinking').classList.toggle('hidden', !b);
@@ -243,7 +247,7 @@ async function sendAudio(blob, url, { fallbackText = '', image } = {}) {
   if (state.busy) return;
   if (blob.size > 6 * 1024 * 1024) return bot('El audio es muy largo (máx. 6 MB).', { error: true });
   setBusy(true);
-  $('#typing') && ($('#typing').innerHTML = 'Escuchando el audio <b>.</b><b>.</b><b>.</b>');
+  $('#typing') && ($('#typing').innerHTML = '<img class="avatar sm" src="/img/logo.png" alt="" /> Escuchando el audio <b>.</b><b>.</b><b>.</b>');
   let text = '';
   try {
     const r = await fetch('/api/transcribe', { method: 'POST', headers: { 'content-type': blob.type || 'audio/mpeg' }, body: blob });
@@ -404,7 +408,7 @@ function cartTotal() { return state.cart.reduce((s, c) => s + c.price * c.qty, 0
 function renderCart() {
   $('#cartList').innerHTML = state.cart.length
     ? state.cart.map((c) => `<li><span class="ic">${productVisual(c)}</span><span class="nm">${esc(c.name)}<small>x${c.qty} · ${money(c.price)} c/u</small></span><span class="pr">${money(c.price * c.qty)}</span><button class="rm" data-id="${c.id}" type="button" aria-label="Quitar">✕</button></li>`).join('')
-    : '<li class="empty-hint">Tu carrito está vacío. Contale tu problema a Tito.</li>';
+    : '<li class="empty-hint">Tu carrito está vacío. Contale tu problema a Ferrelisto.</li>';
   const total = cartTotal();
   $('#cartTotal').textContent = money(total);
   $('#cartTotalTop').textContent = money(total);
@@ -417,7 +421,7 @@ function closeCart() { $('#cartDrawer').classList.remove('open'); $('#drawerShad
 
 function checkout() {
   if (!state.cart.length) return;
-  $('#orderId').textContent = '#EC-' + Math.floor(1000 + Math.random() * 9000);
+  $('#orderId').textContent = '#FL-' + Math.floor(1000 + Math.random() * 9000);
   $('#orderList').innerHTML = state.cart.map((c) => `<li><span>${c.qty} × ${esc(c.name)}</span><b>${money(c.price * c.qty)}</b></li>`).join('');
   $('#orderTotal').textContent = money(cartTotal());
   closeCart();

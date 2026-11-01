@@ -7,7 +7,7 @@ const client = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPE
 
 export const modelInfo = () => ({ model: MODEL, effort: EFFORT, configured: Boolean(client) });
 
-const INSTRUCTIONS = `Sos "Tito", el vendedor estrella del mostrador de Ferretería El Clavo (Argentina).
+const INSTRUCTIONS = `Sos "Ferrelisto", el vendedor estrella con IA de la ferretería Ferrelisto (Argentina).
 El cliente no sabe nombres técnicos: habla en lenguaje cotidiano ("el cosito blanco"), manda fotos o audios transcriptos.
 Tu trabajo: traducir su problema a los productos EXACTOS del catálogo y cerrarle la venta. La pantalla del cliente se actualiza SOLO a través de tus herramientas, así que usalas siempre.
 

@@ -1,8 +1,8 @@
-# PITCH - Ferretería Inteligente
+# PITCH - Ferrelisto
 
 ## Apertura
 1. En la ferretería, el cliente pide "el cosito blanco" y el ferretero pierde tiempo adivinando.
-2. Nuestra IA traduce el problema del cliente a los productos exactos y le cierra la venta.
+2. Ferrelisto, nuestra IA, traduce el problema del cliente a los productos exactos y le cierra la venta.
 3. Miren cómo la pantalla de la derecha reacciona sola mientras el cliente habla.
 
 ## Demo

@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ferretería El Clavo · Mostrador inteligente</title>
+  <title>Ferrelisto · Tu ferretería con IA</title>
+  <link rel="icon" type="image/png" href="/img/favicon.png" />
+  <link rel="apple-touch-icon" href="/img/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
@@ -11,9 +13,9 @@
 <body>
   <header class="topbar">
     <div class="brand">
-      <div class="logo">🔨</div>
+      <img class="logo" src="/img/logo.png" alt="Ferrelisto" />
       <div>
-        <strong>Ferretería El Clavo</strong>
+        <strong>Ferrelisto</strong>
         <span>Mostrador inteligente · contale tu problema, te armamos el kit</span>
       </div>
     </div>
@@ -62,7 +64,7 @@
       </div>
 
       <div id="empty" class="empty">
-        <div class="empty-icon">🧰</div>
+        <img class="empty-icon" src="/img/logo.png" alt="" />
         <h3>Vos contás el problema. Acá aparece la solución.</h3>
         <ol class="steps">
           <li><b>1</b> Traducimos tu problema a idioma ferretero</li>
@@ -73,6 +75,7 @@
 
       <div id="thinking" class="thinking hidden">
         <div class="scan"></div>
+        <img class="think-logo" src="/img/logo.png" alt="" />
         <span>Analizando tu problema…</span>
         <div class="skeletons"><div></div><div></div><div></div></div>
       </div>
@@ -126,10 +129,10 @@
 
   <div id="welcome" class="modal">
     <div class="offer">
-      <div class="ribbon">🔥 NUEVO · ATENCIÓN CON IA</div>
+      <div class="offer-brand"><img src="/img/logo.png" alt="Ferrelisto" /><div><strong>Ferrelisto</strong><div class="ribbon">🔥 NUEVO · ATENCIÓN CON IA</div></div></div>
       <button id="closeWelcome" class="x" type="button" aria-label="Cerrar">✕</button>
       <h1>¿No sabés cómo se llama lo que necesitás? <span>No importa.</span></h1>
-      <p class="lead">Contale a Tito, nuestro vendedor con IA, tu problema <b>como te salga</b>: escribilo, mandá una <b>foto</b> o un <b>audio</b>. Te arma el kit exacto, calcula cantidades y te lo deja en el carrito.</p>
+      <p class="lead">Contale a <b>Ferrelisto</b>, tu vendedor con IA, el problema <b>como te salga</b>: escribilo, mandá una <b>foto</b> o un <b>audio</b>. Te arma el kit exacto, calcula cantidades y te lo deja en el carrito.</p>
       <div class="offer-grid" id="offerGrid"></div>
       <div class="offer-foot">
         <span>🎬 <b>Jurado:</b> en <b>"Casos para la demo"</b> tienen fotos y audios reales para descargar y subir al chat.</span>

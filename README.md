@@ -1,4 +1,4 @@
-# Ferretería Inteligente · Mostrador con IA
+# Ferrelisto · Mostrador de ferretería con IA
 
 Un vendedor con IA para ferreterías: el cliente cuenta su problema como le sale (texto, foto o audio) y la pantalla arma sola el diagnóstico, el kit exacto con cantidades y precios, y el carrito.
 
