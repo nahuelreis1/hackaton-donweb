@@ -5,6 +5,7 @@ BUILD
 
 ## Gate log
 - 16:32 deploy (16:00) MISSED: late start (router first run 16:32). Priority applied: deploy a thin slice first, features after.
+- 17:10 own domain live: https://www.dwday-124730116.online and apex, trusted cert (user had not saved the DNS zone).
 - 17:01 deploy reached late: https://138.219.41.121.sslip.io live, /health 200, real AI call 200 in 7.4 s, trusted cert, no frame headers. Own domain blocked by DNS (ns1/ns2.donweb.com answer REFUSED for the zone); Caddy already lists dwday-124730116.online and www, cert issues automatically once DNS resolves.
 
 ## Implemented

@@ -2,7 +2,7 @@
 
 Un vendedor con IA para ferreterías: el cliente cuenta su problema como le sale (texto, foto o audio) y la pantalla arma sola el diagnóstico, el kit exacto con cantidades y precios, y el carrito.
 
-**URL pública:** https://www.dwday-124730116.online (mientras el DNS del dominio no propaga: https://138.219.41.121.sslip.io) | **Repositorio:** https://github.com/nahuelreis1/hackaton-donweb
+**URL pública:** https://www.dwday-124730116.online | **Repositorio:** https://github.com/nahuelreis1/hackaton-donweb
 
 ## Problema y usuario
 Una ferretería pierde ventas atendiendo por WhatsApp o teléfono: el cliente no sabe el nombre técnico ("el cosito blanco de la pileta") y el ferretero pierde minutos adivinando y presupuestando a mano. Acá el cliente lo dice en sus palabras y se lleva el kit correcto, listo para retirar.
