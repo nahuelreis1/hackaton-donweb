@@ -14,8 +14,11 @@ Tu trabajo: traducir su problema a los productos EXACTOS del catálogo y cerrarl
 Flujo obligatorio cuando el cliente cuenta un problema o un proyecto:
 1. Llamá show_diagnosis (qué detectaste en idioma ferretero y cuál es la solución).
 2. Si hay que pintar paredes y hay medidas (o podés estimarlas de una foto), llamá calculate_paint ANTES del kit y usá las latas que devuelve.
-3. Llamá show_kit con el kit COMPLETO de 4 a 6 productos: el producto principal + los insumos de sellado/fijación/terminación que van con él + la herramienta para instalarlo. Solo ids del catálogo, cantidad y un motivo de máximo 8 palabras. Ej: sifón flojo -> sifon, teflon, silicona, pinza.
-4. Respondé en 1 o 2 oraciones y terminá preguntando si le agregás el kit al carrito.
+3. Llamá show_kit con el kit COMPLETO de 4 a 6 productos, solo ids del catálogo, cantidad y un motivo de máximo 8 palabras. Marcá cada ítem con essential:
+   - essential=true: lo IMPRESCINDIBLE para resolver lo que pidió. Si el pedido ES una acción (cortar, perforar, pintar, atornillar), la herramienta que hace esa acción es imprescindible aunque sea herramienta. Ej: "cortar madera" -> serrucho essential=true; "colgar TV" -> tarugos, tirafondos y mecha10 essential=true; "sifón flojo" -> sifon y teflon essential=true.
+   - essential=false: complementos sugeridos (protección, medición, terminación, herramientas que quizás ya tenga).
+   Elegí el producto según el trabajo: cortes rectos y pocos -> serrucho; muchos cortes o curvos -> caladora + hojas_caladora. Si hay dos opciones razonables, poné la más simple como essential y mencioná la otra en el texto.
+4. Respondé en 1 o 2 oraciones (qué es lo clave y por qué) y terminá preguntando si le agregás el kit al carrito.
 
 Otras reglas:
 - Si el cliente dice que ya tiene algo (ej. "ya tengo rodillo"), llamá remove_item con esos ids.
@@ -62,8 +65,8 @@ const TOOLS = [
         items: {
           type: 'array',
           items: {
-            type: 'object', additionalProperties: false, required: ['id', 'qty', 'reason'],
-            properties: { id: { type: 'string' }, qty: { type: 'integer' }, reason: { type: 'string' } },
+            type: 'object', additionalProperties: false, required: ['id', 'qty', 'reason', 'essential'],
+            properties: { id: { type: 'string' }, qty: { type: 'integer' }, reason: { type: 'string' }, essential: { type: 'boolean', description: 'true si es imprescindible para resolver el pedido' } },
           },
         },
       },
@@ -85,7 +88,7 @@ const TOOLS = [
 ];
 
 const clampQty = (q) => Math.min(Math.max(parseInt(q, 10) || 1, 1), 20);
-const enrich = (it) => ({ ...BY_ID[it.id], qty: clampQty(it.qty), reason: String(it.reason || '').slice(0, 80) });
+const enrich = (it) => ({ ...BY_ID[it.id], qty: clampQty(it.qty), reason: String(it.reason || '').slice(0, 80), essential: it.essential === undefined ? BY_ID[it.id].type !== 'tool' : Boolean(it.essential) });
 
 // Executes one tool call against the request-local state; returns [output for the model, action for the UI].
 function runTool(name, args, state) {
@@ -105,6 +108,7 @@ function runTool(name, args, state) {
         .map(enrich);
       const dropped = (args.items || []).filter((it) => !BY_ID[it?.id]).map((it) => it?.id);
       if (!items.length) return [{ ok: false, error: 'ningún id válido', dropped }, null];
+      items.sort((a, b) => Number(b.essential) - Number(a.essential));
       state.kit = items;
       return [{ ok: true, shown: items.map((i) => i.id), dropped }, { type: 'show_kit', items }];
     }
@@ -132,7 +136,7 @@ function buildInput(messages, kit, cartIds) {
     else if (m.image) content[0].text += ' [foto enviada antes]';
     input.push({ role: 'user', content });
   });
-  const kitTxt = kit.length ? kit.map((k) => `${k.id} x${k.qty}`).join(', ') : 'vacío';
+  const kitTxt = kit.length ? kit.map((k) => `${k.id} x${k.qty}${k.essential ? ' (imprescindible)' : ''}`).join(', ') : 'vacío';
   input.push({ role: 'developer', content: `Estado de la pantalla. Kit actual: ${kitTxt}. Carrito: ${cartIds.length ? cartIds.join(', ') : 'vacío'}.` });
   return input;
 }
@@ -168,10 +172,10 @@ export async function runAgent({ messages, kit = [], cart = [] }) {
 const FALLBACK_RULES = [
   { re: /pileta|bacha|sif[oó]n|gotea|pierde agua|ca[ñn]o/i, d: ['Pérdida en desagüe de cocina', 'Reemplazo de sifón y sellado de rosca', 'plomeria'], kit: [['sifon', 1, 'Reemplaza el sifón flojo'], ['teflon', 1, 'Sella las roscas'], ['silicona', 1, 'Sella uniones'], ['pinza', 1, 'Para ajustar las tuercas']] },
   { re: /pint|pared|humedad|descascar/i, d: ['Pared con humedad y pintura descascarada', 'Reparar, sellar y pintar con antihongos', 'pintura'], kit: [['latex4', 1, 'Cubre 12 m² a dos manos'], ['enduido', 1, 'Rellena lo descascarado'], ['fijador', 1, 'Sella antes de pintar'], ['rodillo', 1, 'Para aplicar el látex'], ['espatula', 1, 'Para enduir y lijar']] },
-  { re: /tele|tv|soporte|ladrillo hueco|colgar/i, d: ['Fijación pesada en ladrillo hueco', 'Tarugos de expansión con tope + tirafondos', 'fijaciones'], kit: [['tarugos', 1, 'Agarran en ladrillo hueco'], ['tirafondos', 1, 'Soportan peso del TV'], ['mecha10', 1, 'Para el diámetro del tarugo'], ['nivel', 1, 'Para que quede derecho']] },
+  { re: /tele|tv|soporte|ladrillo hueco|colgar/i, d: ['Fijación pesada en ladrillo hueco', 'Tarugos de expansión con tope + tirafondos', 'fijaciones'], kit: [['tarugos', 1, 'Agarran en ladrillo hueco'], ['tirafondos', 1, 'Soportan peso del TV'], ['mecha10', 1, 'Para el diámetro del tarugo', true], ['nivel', 1, 'Para que quede derecho']] },
   { re: /enchufe|tomacorriente|derriti|quem|caloventor|estufa/i, d: ['Tomacorriente derretido por sobrecarga', 'Reemplazo por toma reforzado de 20 A', 'electricidad'], kit: [['toma20', 1, 'Soporta alto consumo'], ['aisladora', 1, 'Aísla empalmes'], ['cable25', 1, 'Sección para 20 A'], ['destaislado', 1, 'Trabajo seguro con buscapolo']] },
   { re: /bisagra|alacena|puerta|mueble|agujero/i, d: ['Bisagra arrancada en aglomerado', 'Reparar agujeros y colocar bisagras nuevas', 'herrajes'], kit: [['bisagras', 1, 'Reemplazan las rotas'], ['placa', 2, 'Cubre el agujero agrandado'], ['masilla', 1, 'Rellena la madera'], ['phillips', 1, 'Imantado, no se cae el tornillo']] },
-  { re: /cortar|madera|tabla|serru|sierra/i, d: ['Corte de madera', 'Serrucho o caladora según el corte', 'carpinteria'], kit: [['serrucho', 1, 'Cortes rectos a mano'], ['metro', 1, 'Para medir el corte'], ['lija_madera', 1, 'Prolija los bordes'], ['guantes', 1, 'Protección de manos']] },
+  { re: /cortar|madera|tabla|serru|sierra/i, d: ['Corte de madera', 'Serrucho o caladora según el corte', 'carpinteria'], kit: [['serrucho', 1, 'Cortes rectos a mano', true], ['metro', 1, 'Para medir el corte'], ['lija_madera', 1, 'Prolija los bordes'], ['guantes', 1, 'Protección de manos']] },
 ];
 
 export function fallbackAgent({ messages, kit = [] }) {
@@ -184,7 +188,7 @@ export function fallbackAgent({ messages, kit = [] }) {
   }
   const rule = FALLBACK_RULES.find((r) => r.re.test(text));
   if (!rule) return { reply: `Contame un poco más qué tenés que arreglar. (${label})`, actions: [], kit, fallback: true };
-  const items = rule.kit.map(([id, qty, reason]) => enrich({ id, qty, reason }));
+  const items = rule.kit.map(([id, qty, reason, essential]) => enrich({ id, qty, reason, essential })).sort((a, b) => Number(b.essential) - Number(a.essential));
   return {
     reply: `Te armé el kit para eso. ¿Te lo agrego al carrito? (${label})`,
     actions: [{ type: 'show_diagnosis', detected: rule.d[0], solution: rule.d[1], category: rule.d[2] }, { type: 'show_kit', items }],

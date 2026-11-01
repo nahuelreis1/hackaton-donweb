@@ -237,3 +237,68 @@ button { font: inherit; cursor: pointer; }
 .offer-brand { display: flex; align-items: center; gap: 14px; }
 .offer-brand img { width: 64px; height: 64px; border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow); }
 .offer-brand strong { display: block; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+
+/* ===== Polish v2: chat ===== */
+.chat-head { gap: 12px; }
+.agent-id { display: flex; align-items: center; gap: 12px; }
+.agent-avatar { position: relative; flex: none; }
+.agent-avatar img { width: 46px; height: 46px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 2px var(--orange), 0 6px 16px rgba(255, 106, 19, .25); background: #fff; display: block; }
+.agent-avatar i { position: absolute; right: 0; bottom: 1px; width: 12px; height: 12px; border-radius: 50%; background: var(--green); border: 2px solid #fff; }
+.chat-head h2 { display: flex; align-items: center; gap: 8px; font-size: 18px; }
+.badge-ai { font-size: 10px; font-weight: 800; letter-spacing: .06em; color: #fff; background: linear-gradient(135deg, #ff8a3d, #ff5a00); padding: 3px 7px; border-radius: 6px; }
+.messages { background: linear-gradient(180deg, #fafbfc, #f5f6f8); }
+.msg.bot { background: #fff; border: 1px solid #eceef2; box-shadow: 0 2px 8px rgba(16, 24, 40, .05); }
+.msg.user { background: linear-gradient(135deg, #ff7a26, #ff5a00); box-shadow: 0 6px 16px rgba(255, 106, 19, .25); }
+.msg.user .transcript { opacity: .9; }
+.botrow .avatar { width: 32px; height: 32px; box-shadow: 0 2px 6px rgba(0, 0, 0, .08); }
+.action-chip { background: var(--orange-soft); border-color: #ffd5bd; color: #a83c00; }
+.quick button { transition: transform .15s, box-shadow .15s; }
+.quick .yes { background: linear-gradient(135deg, #17b85c, #0e9447); box-shadow: 0 6px 14px rgba(18, 161, 80, .3); padding: 9px 16px; }
+.quick .yes:hover, .quick .no:hover { transform: translateY(-2px); }
+.chips { padding-top: 10px; background: #f5f6f8; }
+.chips button { background: #fff; border-color: #e3e6eb; font-weight: 500; box-shadow: 0 1px 2px rgba(16, 24, 40, .05); transition: transform .15s, border-color .15s; }
+.chips button:hover { transform: translateY(-1px); }
+.composer { background: #fff; gap: 10px; }
+.composer-box { flex: 1; min-width: 0; display: flex; align-items: center; gap: 2px; border: 1.5px solid #e3e6eb; border-radius: 999px; padding: 4px 6px; background: #fff; transition: border-color .2s, box-shadow .2s; }
+.composer-box:focus-within { border-color: var(--orange); box-shadow: 0 0 0 4px rgba(255, 106, 19, .12); }
+.composer-box input[type=text] { flex: 1; min-width: 0; border: 0; outline: none; font: inherit; font-size: 15px; padding: 10px 6px; background: transparent; }
+.composer-box input[type=text]:focus { box-shadow: none; }
+.icon-btn { width: 38px; height: 38px; border: 0; border-radius: 50%; background: transparent; color: #6b7280; transition: background .15s, color .15s; }
+.icon-btn:hover { background: var(--orange-soft); color: var(--orange); }
+.icon-btn svg, .send-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.icon-btn.mic.rec { background: #fee2e2; color: #dc2626; border: 0; }
+.send-btn { width: 50px; height: 50px; padding: 0; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, #ff7a26, #ff5a00); box-shadow: 0 8px 18px rgba(255, 106, 19, .35); transition: transform .15s; flex: none; }
+.send-btn svg { fill: #fff; stroke: #fff; margin-left: -2px; }
+.send-btn:hover { transform: scale(1.06); }
+.cases summary { align-items: center; }
+.case { border: 1px solid #ffe2d1; transition: box-shadow .2s; }
+.case:hover { box-shadow: 0 6px 16px rgba(255, 106, 19, .12); }
+.load-case { box-shadow: 0 4px 10px rgba(255, 106, 19, .3); }
+
+/* ===== Polish v2: 3D product cards ===== */
+.kit-section h3 { display: flex; align-items: center; gap: 8px; }
+.sec-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.sec-dot.need { background: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
+.sec-dot.opt { background: var(--orange); box-shadow: 0 0 0 4px var(--orange-soft); }
+.card { border: 1px solid #eef0f3; transition: transform .25s, box-shadow .25s, opacity .35s; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(16, 24, 40, .14); }
+.card .ph { position: relative; height: 150px; perspective: 600px; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 35%, #ffffff 0%, #fff1e6 55%, #ffdcc2 100%); }
+.card.tool .ph { background: radial-gradient(ellipse at 50% 35%, #ffffff 0%, #eef3ff 55%, #d6e2ff 100%); }
+.card .ph::before { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(255, 255, 255, .7) 0%, transparent 40%); pointer-events: none; }
+.card .obj { position: relative; z-index: 1; font-size: 70px; line-height: 1; transform: rotateX(12deg) rotateY(-16deg); transform-style: preserve-3d;
+  filter: drop-shadow(0 14px 10px rgba(0, 0, 0, .22)) drop-shadow(0 2px 1px rgba(0, 0, 0, .12)) saturate(1.15);
+  transition: transform .45s cubic-bezier(.2, .9, .3, 1.2); animation: float 4s ease-in-out infinite; }
+.card .obj img { width: 100%; height: 100%; object-fit: cover; }
+.card .floor { position: absolute; bottom: 20px; left: 50%; width: 80px; height: 14px; margin-left: -40px; border-radius: 50%; background: radial-gradient(ellipse, rgba(0, 0, 0, .22), transparent 70%); animation: shadow 4s ease-in-out infinite; }
+.card:hover .obj { transform: rotateX(0) rotateY(10deg) scale(1.12) translateY(-6px); }
+@keyframes float { 50% { translate: 0 -6px; } }
+@keyframes shadow { 50% { transform: scale(.85); opacity: .7; } }
+.tbadge { position: absolute; top: 10px; right: 10px; z-index: 2; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: rgba(255, 255, 255, .85); color: #6b7280; border: 1px solid rgba(0, 0, 0, .06); backdrop-filter: blur(4px); }
+.card.tool .tbadge { color: #3056d3; }
+.card .name { font-size: 14.5px; }
+.card .price { color: var(--ink); }
+.card .own { transition: all .15s; }
+.kit-footer .buy-btn { padding: 14px 22px; }
+.offer-card .try { display: block; }
+#startBtn { white-space: nowrap; }

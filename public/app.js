@@ -205,7 +205,7 @@ async function send(text, extra = {}) {
       method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         messages: state.messages.map((m, i) => ({ ...m, image: i === state.messages.length - 1 ? m.image : undefined })),
-        kit: state.kit.map((k) => ({ id: k.id, qty: k.qty, reason: k.reason })),
+        kit: state.kit.map((k) => ({ id: k.id, qty: k.qty, reason: k.reason, essential: k.essential })),
         cart: state.cart.map((c) => c.id),
       }),
     });
@@ -272,13 +272,13 @@ async function toggleRecording() {
     recorder.ondataavailable = (e) => chunks.push(e.data);
     recorder.onstop = () => {
       stream.getTracks().forEach((t) => t.stop());
-      $('#micBtn').classList.remove('rec'); $('#micBtn').textContent = '🎙️';
+      $('#micBtn').classList.remove('rec');
       const blob = new Blob(chunks, { type: recorder.mimeType || 'audio/webm' });
       recorder = null;
       if (blob.size > 1000) sendAudio(blob, URL.createObjectURL(blob));
     };
     recorder.start();
-    $('#micBtn').classList.add('rec'); $('#micBtn').textContent = '⏹️';
+    $('#micBtn').classList.add('rec');
   } catch {
     recorder = null;
     bot('No pude acceder al micrófono. Podés subir un audio con 🎵.', { error: true });
@@ -325,12 +325,12 @@ function productVisual(p) {
 
 function cardHtml(p, i, isNew) {
   return `<div class="card ${p.type}${isNew ? ' new-badge' : ''}" data-id="${p.id}" style="animation-delay:${i * 0.12}s">
-    <div class="ph">${productVisual(p)}</div>
+    <div class="ph"><span class="tbadge">${p.type === 'tool' ? 'Herramienta' : 'Material'}</span><div class="obj">${productVisual(p)}</div><div class="floor"></div></div>
     <div class="body">
       <div class="name">${esc(p.name)}</div>
       <div class="why">${esc(p.reason || '')}</div>
       <div class="row"><span class="qty">x${p.qty}</span><span class="price">${money(p.price * p.qty)}</span></div>
-      <button class="own" type="button" data-id="${p.id}">${p.type === 'tool' ? 'Ya la tengo' : 'Ya lo tengo'}</button>
+      <button class="own" type="button" data-id="${p.id}">Ya lo tengo</button>
     </div>
   </div>`;
 }
@@ -340,10 +340,10 @@ function showKit(items) {
   const hadKit = state.kit.length > 0;
   state.kit = items;
   $('#empty').classList.add('hidden');
-  const mats = items.filter((p) => p.type !== 'tool');
-  const tools = items.filter((p) => p.type === 'tool');
-  $('#materials').innerHTML = mats.map((p, i) => cardHtml(p, i, hadKit && !before.has(p.id))).join('') || '<span class="empty-hint">Sin materiales.</span>';
-  $('#tools').innerHTML = tools.map((p, i) => cardHtml(p, i + mats.length, hadKit && !before.has(p.id))).join('') || '<span class="empty-hint">No necesitás herramientas extra.</span>';
+  const mats = items.filter((p) => p.essential !== false);
+  const tools = items.filter((p) => p.essential === false);
+  $('#materials').innerHTML = mats.map((p, i) => cardHtml(p, i, hadKit && !before.has(p.id))).join('') || '<span class="empty-hint">—</span>';
+  $('#tools').innerHTML = tools.map((p, i) => cardHtml(p, i + mats.length, hadKit && !before.has(p.id))).join('') || '<span class="empty-hint">Nada más: con lo de arriba alcanza.</span>';
   $('#kit').classList.remove('hidden');
   $('#addKitBtn').disabled = false; $('#addKitBtn').classList.remove('done'); $('#addKitBtn').textContent = '🛒 Agregar kit al carrito';
   updateKitTotal();
@@ -363,7 +363,7 @@ async function removeItems(ids) {
     }
   }
   state.kit = state.kit.filter((k) => !ids.includes(k.id));
-  if (!$('#tools').children.length) $('#tools').innerHTML = '<span class="empty-hint">No necesitás herramientas extra.</span>';
+  if (!$('#tools').children.length) $('#tools').innerHTML = '<span class="empty-hint">Nada más: con lo de arriba alcanza.</span>';
   updateKitTotal();
 }
 

@@ -30,9 +30,12 @@
   <main class="split">
     <section class="chat-panel">
       <div class="chat-head">
-        <div>
-          <h2>Contale tu problema</h2>
-          <p>Como te salga: texto, foto o audio. No hace falta saber el nombre técnico.</p>
+        <div class="agent-id">
+          <span class="agent-avatar"><img src="/img/logo.png" alt="Ferrelisto" /><i></i></span>
+          <div>
+            <h2>Ferrelisto <span class="badge-ai">IA</span></h2>
+            <p>En línea · Contale tu problema como te salga: texto, foto o audio</p>
+          </div>
         </div>
         <details id="cases" class="cases">
           <summary>🎬 Casos para la demo</summary>
@@ -49,11 +52,23 @@
 
       <div id="attachPreview" class="attach-preview hidden"></div>
       <form id="composer" class="composer" autocomplete="off">
-        <label class="icon-btn" title="Subir foto">📷<input id="imageInput" type="file" accept="image/*" hidden /></label>
-        <label class="icon-btn" title="Subir audio">🎵<input id="audioInput" type="file" accept="audio/*" hidden /></label>
-        <button id="micBtn" class="icon-btn" type="button" title="Grabar audio">🎙️</button>
-        <input id="textInput" type="text" maxlength="1500" placeholder="Ej: se me rompió el cosito de la canilla…" />
-        <button id="sendBtn" class="send-btn" type="submit">Enviar</button>
+        <div class="composer-box">
+          <label class="icon-btn" title="Subir foto del problema">
+            <svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></svg>
+            <input id="imageInput" type="file" accept="image/*" hidden />
+          </label>
+          <label class="icon-btn" title="Subir un audio">
+            <svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+            <input id="audioInput" type="file" accept="audio/*" hidden />
+          </label>
+          <input id="textInput" type="text" maxlength="1500" placeholder="Ej: se me rompió el cosito de la canilla…" />
+          <button id="micBtn" class="icon-btn mic" type="button" title="Grabar audio">
+            <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+          </button>
+        </div>
+        <button id="sendBtn" class="send-btn" type="submit" aria-label="Enviar">
+          <svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/></svg>
+        </button>
       </form>
     </section>
 
@@ -98,11 +113,11 @@
 
       <div id="kit" class="kit hidden">
         <div class="kit-section">
-          <h3>🧱 Materiales necesarios</h3>
+          <h3><span class="sec-dot need"></span>Lo que necesitás <small>lo imprescindible para resolverlo</small></h3>
           <div id="materials" class="grid"></div>
         </div>
         <div class="kit-section">
-          <h3>🛠️ Herramientas sugeridas <small>¿Ya la tenés? Tocá "Ya la tengo"</small></h3>
+          <h3><span class="sec-dot opt"></span>Sugeridos para el trabajo <small>¿Ya lo tenés? Tocá "Ya lo tengo"</small></h3>
           <div id="tools" class="grid"></div>
         </div>
         <div class="kit-footer">
@@ -135,7 +150,7 @@
       <p class="lead">Contale a <b>Ferrelisto</b>, tu vendedor con IA, el problema <b>como te salga</b>: escribilo, mandá una <b>foto</b> o un <b>audio</b>. Te arma el kit exacto, calcula cantidades y te lo deja en el carrito.</p>
       <div class="offer-grid" id="offerGrid"></div>
       <div class="offer-foot">
-        <span>🎬 <b>Jurado:</b> en <b>"Casos para la demo"</b> tienen fotos y audios reales para descargar y subir al chat.</span>
+        <span>🎬 <b>Jurado:</b> en <b>"Casos para la demo"</b> tienen audios reales de clientes para descargar y subir al chat, o cargarlos con un clic.</span>
         <button id="startBtn" class="buy-btn" type="button">Probar ahora →</button>
       </div>
     </div>
