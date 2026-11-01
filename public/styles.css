@@ -355,3 +355,17 @@ button { font: inherit; cursor: pointer; }
   .modal { place-items: start center; overflow-y: auto; }
   .offer { max-height: none; }
 }
+
+/* Pop-up: video dominates, label outside the video */
+.offer { max-width: 1240px; }
+.offer-top { grid-template-columns: minmax(0, .72fr) minmax(0, 1.5fr); gap: 24px; align-items: start; }
+.offer h1 { font-size: 25px; }
+.offer .lead { font-size: 14.5px; }
+.offer-media { display: flex; flex-direction: column; }
+.media-tag { position: static; order: -1; border-radius: 0; background: #16181d; padding: 8px 14px; font-size: 13px; }
+.offer-media video { aspect-ratio: 16 / 10; }
+
+/* Demo cases toggle invite: soft glow while closed */
+.cases:not([open]) { animation: casesGlow 2s ease-in-out infinite; }
+@keyframes casesGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 106, 19, 0); } 50% { box-shadow: 0 0 0 5px rgba(255, 106, 19, .22), 0 0 18px rgba(255, 106, 19, .35); } }
+@media (max-width: 860px) { .offer-top { grid-template-columns: 1fr; } }
