@@ -50,6 +50,10 @@ function renderCases() {
         <a href="/demo/${c.id}.mp3" target="_blank" rel="noopener" download>🎧 Audio del cliente</a>
       </span>
     </li>`).join('');
+  // Hide download links for demo files that are not published yet.
+  document.querySelectorAll('.case-links a').forEach((a) => {
+    fetch(a.getAttribute('href'), { method: 'HEAD' }).then((r) => { if (!r.ok) a.remove(); }).catch(() => a.remove());
+  });
   $('#caseList').addEventListener('click', (e) => {
     const b = e.target.closest('.load-case');
     if (b) { $('#cases').open = false; loadCase(b.dataset.case); }
