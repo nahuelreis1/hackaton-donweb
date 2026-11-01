@@ -348,3 +348,10 @@ button { font: inherit; cursor: pointer; }
   .offer-media { order: -1; }
   .offer-grid { grid-template-columns: 1fr; }
 }
+.chat-panel, .counter-panel { min-width: 0; }
+@media (max-width: 860px) {
+  html, body { overflow-x: hidden; width: 100%; }
+  .split { grid-template-columns: minmax(0, 1fr); }
+  .modal { place-items: start center; overflow-y: auto; }
+  .offer { max-height: none; }
+}
