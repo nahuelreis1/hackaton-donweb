@@ -25,6 +25,7 @@ FINISH
 - Deck /pitch/ (not built; cut for time).
 
 ## Scope changes
+- 18:12 user: pop-up video enlarged (dominant column), "Así funciona" label moved above the video, soft glow on the demo cases toggle. Deployed f3aa910, checked by screenshot.
 - 17:58 user: demo video (20 s, real app and real AI, waits compressed) in the pop-up; demo cases 3 audio + 3 photo; mic glow invite. Deployed 122d458.
 - 17:47 user: OK to use the OpenAI key for development; 5 case photos + 40 product photos generated with gpt-image-2 (0 failures). Photo-only diagnosis verified on public URL (caso4 -> toma20). Deployed 2ed92bd.
 - 17:40 user: kit split into "Lo que necesitás" (essential, model-decided) vs "Sugeridos"; 3D product cards; polished chat (avatar header, pill composer, SVG icons). Deployed 9304d5e. Self-review via headless Chrome screenshots.
