@@ -2,11 +2,11 @@ const $ = (s) => document.querySelector(s);
 const money = (n) => '$' + Math.round(n).toLocaleString('es-AR');
 
 const CASES = [
-  { id: 'caso1', icon: '🚰', title: 'Plomería · Pierde agua abajo de la bacha', text: 'Hola, me pierde agua el cosito blanco doblado que está abajo de la pileta de la cocina, está todo flojo, ¿qué le tengo que poner?' },
-  { id: 'caso2', icon: '🎨', title: 'Pintura · Pared con humedad', text: 'Quiero arreglar y pintar una pared de mi pieza que mide 4 por 3 metros y se me descascaró abajo por la humedad, ¿qué compro y cuánta pintura necesito?' },
-  { id: 'caso3', icon: '📺', title: 'Fijaciones · TV en ladrillo hueco', text: 'Necesito colgar el soporte de una tele grande en el departamento, pero la pared es de ladrillo hueco y los tornillos comunes me bailan y se salen.' },
-  { id: 'caso4', icon: '🔌', title: 'Electricidad · Enchufe derretido', text: 'Enchufé el caloventor y se me derritió el plástico del enchufe de la pared, ¿qué tengo que comprar para cambiarlo y que no se vuelva a quemar?' },
-  { id: 'caso5', icon: '🚪', title: 'Muebles · Puerta de alacena caída', text: 'Se me salió la bisagra de la puerta de la alacena de la cocina y quedaron los agujeros todos agrandados en la madera, ya no agarra ningún tornillo.' },
+  { id: 'caso1', audio: true, photo: true, icon: '🚰', title: 'Plomería · Pierde agua abajo de la bacha', text: 'Hola, me pierde agua el cosito blanco doblado que está abajo de la pileta de la cocina, está todo flojo, ¿qué le tengo que poner?' },
+  { id: 'caso2', audio: true, icon: '🎨', title: 'Pintura · Pared con humedad', text: 'Quiero arreglar y pintar una pared de mi pieza que mide 4 por 3 metros y se me descascaró abajo por la humedad, ¿qué compro y cuánta pintura necesito?' },
+  { id: 'caso3', audio: true, icon: '📺', title: 'Fijaciones · TV en ladrillo hueco', text: 'Necesito colgar el soporte de una tele grande en el departamento, pero la pared es de ladrillo hueco y los tornillos comunes me bailan y se salen.' },
+  { id: 'caso4', photo: true, icon: '🔌', title: 'Electricidad · Enchufe derretido', text: 'Enchufé el caloventor y se me derritió el plástico del enchufe de la pared, ¿qué tengo que comprar para cambiarlo y que no se vuelva a quemar?' },
+  { id: 'caso5', photo: true, icon: '🚪', title: 'Muebles · Puerta de alacena caída', text: 'Se me salió la bisagra de la puerta de la alacena de la cocina y quedaron los agujeros todos agrandados en la madera, ya no agarra ningún tornillo.' },
 ];
 
 const OFFERS = [
@@ -42,19 +42,15 @@ async function init() {
 function renderCases() {
   $('#caseList').innerHTML = CASES.map((c) => `
     <li class="case">
-      <img class="case-thumb" src="/demo/${c.id}.jpg" alt="" onerror="this.remove()" />
+      ${c.photo ? `<img class="case-thumb" src="/demo/${c.id}.jpg" alt="Foto del problema" />` : '<span class="case-thumb audio-thumb">🎧</span>'}
       <span class="case-title">${c.icon} ${c.title}</span>
       <button class="load-case" data-case="${c.id}" type="button">▶ Cargar caso</button>
-      <span class="case-quote">"${c.text}"</span>
+      <span class="case-quote">${c.audio ? `"${c.text}"` : 'El cliente solo manda la foto: la IA tiene que darse cuenta del problema.'}</span>
       <span class="case-links">
-        <a href="/demo/${c.id}.jpg" target="_blank" rel="noopener" download>📷 Foto del problema</a>
-        <a href="/demo/${c.id}.mp3" target="_blank" rel="noopener" download>🎧 Audio del cliente</a>
+        ${c.audio ? `<a class="res audio" href="/demo/${c.id}.mp3" target="_blank" rel="noopener" download>🎧 Descargar audio</a>` : ''}
+        ${c.photo ? `<a class="res photo" href="/demo/${c.id}.jpg" target="_blank" rel="noopener" download>📷 Descargar foto</a>` : ''}
       </span>
     </li>`).join('');
-  // Hide download links for demo files that are not published yet.
-  document.querySelectorAll('.case-links a').forEach((a) => {
-    fetch(a.getAttribute('href'), { method: 'HEAD' }).then((r) => { if (!r.ok) a.remove(); }).catch(() => a.remove());
-  });
   $('#caseList').addEventListener('click', (e) => {
     const b = e.target.closest('.load-case');
     if (b) { $('#cases').open = false; loadCase(b.dataset.case); }
@@ -229,15 +225,17 @@ async function loadCase(id) {
   const c = CASES.find((x) => x.id === id);
   if (!c || state.busy) return;
   let image;
-  try {
-    const r = await fetch(`/demo/${id}.jpg`);
-    if (r.ok) image = await shrinkImage(await r.blob());
-  } catch { /* no photo for this case */ }
+  if (c.photo) {
+    try {
+      const r = await fetch(`/demo/${id}.jpg`);
+      if (r.ok) image = await shrinkImage(await r.blob());
+    } catch { /* photo unavailable */ }
+  }
+  if (!c.audio) return send('Te mando una foto de lo que me pasó, ¿qué necesito?', { image });
   try {
     const r = await fetch(`/demo/${id}.mp3`);
     if (!r.ok) throw new Error('no audio');
-    const blob = await r.blob();
-    await sendAudio(blob, `/demo/${id}.mp3`, { fallbackText: c.text, image });
+    await sendAudio(await r.blob(), `/demo/${id}.mp3`, { fallbackText: c.text, image });
   } catch {
     send(c.text, { image });
   }

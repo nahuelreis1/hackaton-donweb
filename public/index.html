@@ -62,7 +62,7 @@
             <input id="audioInput" type="file" accept="audio/*" hidden />
           </label>
           <input id="textInput" type="text" maxlength="1500" placeholder="Ej: se me rompió el cosito de la canilla…" />
-          <button id="micBtn" class="icon-btn mic" type="button" title="Grabar audio">
+          <button id="micBtn" class="icon-btn mic" type="button" title="¡Mandá un audio! Tocá para grabar">
             <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
           </button>
         </div>
@@ -144,13 +144,22 @@
 
   <div id="welcome" class="modal">
     <div class="offer">
-      <div class="offer-brand"><img src="/img/logo.png" alt="Ferrelisto" /><div><strong>Ferrelisto</strong><div class="ribbon">🔥 NUEVO · ATENCIÓN CON IA</div></div></div>
       <button id="closeWelcome" class="x" type="button" aria-label="Cerrar">✕</button>
-      <h1>¿No sabés cómo se llama lo que necesitás? <span>No importa.</span></h1>
-      <p class="lead">Contale a <b>Ferrelisto</b>, tu vendedor con IA, el problema <b>como te salga</b>: escribilo, mandá una <b>foto</b> o un <b>audio</b>. Te arma el kit exacto, calcula cantidades y te lo deja en el carrito.</p>
+      <div class="offer-top">
+        <div class="offer-main">
+          <div class="offer-brand"><img src="/img/logo.png" alt="Ferrelisto" /><div><strong>Ferrelisto</strong><div class="ribbon">🔥 NUEVO · ATENCIÓN CON IA</div></div></div>
+          <h1>¿No sabés cómo se llama lo que necesitás? <span>No importa.</span></h1>
+          <p class="lead">Contale a <b>Ferrelisto</b>, tu vendedor con IA, el problema <b>como te salga</b>: escribilo, mandá una <b>foto</b> o un <b>audio</b>. Te arma el kit exacto, calcula cantidades y te lo deja en el carrito.</p>
+          <p class="multimodal-tip">🎬 <b>¿Querés probar la IA multimodal?</b> En <b>"Casos para la demo"</b> tenés <b>fotos y audios reales</b> de problemas de ferretería: cargalos con un clic o descargalos y subilos al chat.</p>
+        </div>
+        <div class="offer-media">
+          <video src="/media/ferrelisto-demo.mp4" poster="/media/ferrelisto-demo.jpg" autoplay muted loop playsinline></video>
+          <span class="media-tag">▶ Así funciona Ferrelisto</span>
+        </div>
+      </div>
       <div class="offer-grid" id="offerGrid"></div>
       <div class="offer-foot">
-        <span>🎬 <b>Jurado:</b> en <b>"Casos para la demo"</b> tienen fotos y audios reales de clientes para descargar y subir al chat, o cargarlos con un clic.</span>
+        <span>O probá directo con una de estas ideas 👆</span>
         <button id="startBtn" class="buy-btn" type="button">Probar ahora →</button>
       </div>
     </div>
